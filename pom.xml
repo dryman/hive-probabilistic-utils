@@ -3,16 +3,37 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.idryman</groupId>
-  <artifactId>hive-hll</artifactId>
+  <artifactId>hive-probabilistic-utils</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>hive-hll</name>
+  <name>hive-probabilistic-utils</name>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <build>
+  	<plugins>
+  	  <plugin>
+  	    <artifactId>maven-assembly-plugin</artifactId>
+  	    <version>2.3</version>
+  	    <configuration>
+  	      <descriptorRefs>
+  	        <descriptorRef>jar-with-dependencies</descriptorRef>
+  	      </descriptorRefs>
+  	    </configuration>
+  	    <executions>
+  	      <execution>
+  	        <id>make-assembly</id>
+  	        <phase>package</phase>
+  	        <goals><goal>single</goal></goals>
+  	      </execution>
+  	    </executions>
+  	  </plugin>
+  	</plugins>
+  </build>
   
   <repositories>
     <repository>
@@ -27,6 +48,11 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+	  <groupId>com.google.guava</groupId>
+	  <artifactId>guava</artifactId>
+	  <version>18.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
