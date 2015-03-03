@@ -1,6 +1,6 @@
-# Probabilistic Hive
+# Probabilistic Hive (Alpha)
 
-Probabilistic data structures and algorithms in hive.
+Probabilistic data structures and algorithms in hive. Currently only implemented hyperloglog.
 
 ## SYNOPSIS
 
@@ -22,10 +22,40 @@ SELECT hll(hll_col).cardinality from hll_cache WHERE d='2015-03-01;'
 SELECT hll_col.signature from hll_cache WHERE d='2015-03-01';
 ```
 
+## INSTALL
+
+```
+mvn package
+scp target/hive-probabilistic-utils-0.0.2-jar-with-dependencies.jar your-hive-server
+```
+
+In your hive shell:
+
+```sql
+ADD JAR /path/to/your/uploaded/jar;
+CREATE TEMPORARY FUNCTION hll AS 'org.idryman.hive.HyperLogLog';
+
+-- Now the function is loaded, use the example in SYNOPSIS
+DESC EXTENDED FUNCTION hll; -- show function doc
+```
+
+## Road Map
+
+* Lossy count -> estimate top-k element
+* Count-sketch -> frequency estimate
+* Moment/Entropy estimate -> AMS or others
+
+## TODO
+
+* No test! BeeTest should be the way to go.
+* make function configurable (only available after hive 0.11.0)
+* Currently using hadoop seriailzied binary as the input (for performance purpose), but this may be incompatible to the
+  downstream (postres-hll, js-hll). Value to hyperloglog mapping should be deterministic across all platform.
+
 ## Reference
 
-* MLnick/hive-udf
-* java-hll
+* [MLnick/hive-udf](https://github.com/MLnick/hive-udf)
+* [java-hll](https://github.com/aggregateknowledge/java-hll)
 
 ## LICENSE
 
