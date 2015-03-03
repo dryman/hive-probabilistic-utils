@@ -1,0 +1,33 @@
+# Probabilistic Hive
+
+Probabilistic data structures and algorithms in hive.
+
+## SYNOPSIS
+
+```sql
+-- estimate the cardinality of SELECT * FROM src GROUP BY col1, col2;
+SELECT hll(col1, col2).cardinality from src;
+
+-- create hyperloglog cache per hour
+FROM input_table src
+  INSERT OVERWRITE TABLE hll_cache PARTITION (d='2015-03-01',h='00')
+  SELECT hll(col1,col2) WHERE d='2015-03-01' AND h='00'
+  INSERT OVERWRITE TABLE hll_cache PARTITION (d='2015-03-01',h='01')
+  SELECT hll(col1,col2) WHERE d='2015-03-01' AND h='01'
+
+-- read the cache and calculate the cardinality of full day
+SELECT hll(hll_col).cardinality from hll_cache WHERE d='2015-03-01;'
+
+-- unpack hive hll struct and make it readable by postgres-hll, js-hll developed by Aggregate Knowledge, Inc.
+SELECT hll_col.signature from hll_cache WHERE d='2015-03-01';
+```
+
+## Reference
+
+* MLnick/hive-udf
+* java-hll
+
+## LICENSE
+
+CopyRight 2015 Felix Chern
+APL 2.0
