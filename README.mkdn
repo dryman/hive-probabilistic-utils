@@ -60,4 +60,4 @@ DESC EXTENDED FUNCTION hll; -- show function doc
 ## LICENSE
 
 CopyRight 2015 Felix Chern
-APL 2.0
+ALv2
